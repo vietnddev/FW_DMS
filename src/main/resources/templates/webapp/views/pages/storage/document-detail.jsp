@@ -28,63 +28,7 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <div class="card col-12" style="font-size: 14px">
-                        <div class="card-header">
-                            <div class="row justify-content-between">
-                                <div class="col-12" style="display: flex; align-items: center">
-                                    <h3 class="card-title">
-                                        <strong th:text="${docDetail.name}"></strong>
-                                    </h3>
-                                </div>
-                            </div>
-                            <!-- modal-content (Thêm mới loại sản phẩm)-->
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body" style="padding-left: 5px; padding-top: 3px; padding-right: 5px; padding-bottom: 5px">
-                            <div class="row mt-2 mb-1">
-                                <div class="col-sm-12 text-center" style="margin-bottom: 5px">
-                                    <button type="button" class="btn btn-sm btn-secondary" style="width: 110px"
-                                            data-toggle="modal" data-target="#modalChangeFile">
-                                        <i class="fa-solid fa-arrows-rotate mr-1"></i>
-                                        Thay file
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-info" style="width: 110px"
-                                            data-toggle="modal" data-target="#modalMove">
-                                        <i class="fa-solid fa-arrow-right-arrow-left mr-1"></i>
-                                        Di chuyển
-                                    </button>
-
-                                    <!--==-- POPUP --==-->
-                                    <!--CHANGE FILE-->
-                                    <div class="modal fade" id="modalChangeFile">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content text-left">
-                                                <form th:action="@{/stg/doc/change-file/{id}(id=${docDetail.id})}"
-                                                      enctype="multipart/form-data" method="post">
-                                                    <div class="modal-header">
-                                                        <strong class="modal-title">Thay file đính kèm</strong>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="form-group w-100">
-                                                                <label>Chọn file mới</label>
-                                                                <input class="form-control" type="file" name="file" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer justify-content-end">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                                                        <button type="submit" class="btn btn-primary">Lưu</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--END CHANGE FILE-->
-                                </div>
-                            </div>
+                        <div class="card-body pl-0 pr-0" style="padding-top: 8px">
                             <div class="row">
                                 <div class="col-sm-8">
                                     <iframe class="w-100" th:src="@{'/' + ${docDetail.file.src}}" style="min-height: 583px"></iframe>
@@ -101,6 +45,19 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="#version" data-toggle="tab" id="fileVersionTab">PHIÊN BẢN</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-sm btn-default" disabled>Action</button>
+                                                        <button type="button" class="btn btn-sm btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                                                            <span class="sr-only">Toggle Dropdown</span>
+                                                        </button>
+                                                        <div class="dropdown-menu" role="menu" style="">
+                                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalChangeFile">
+                                                                <i class="fa-solid fa-arrows-rotate mr-1"></i>Thay file
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </li>
                                             </ul>
                                         </div><!-- /.card-header -->
@@ -164,6 +121,37 @@
                     </div>
                 </div>
             </div>
+
+            <!--CHANGE FILE-->
+            <div class="modal fade" id="modalChangeFile">
+                <div class="modal-dialog">
+                    <div class="modal-content text-left">
+                        <form th:action="@{/stg/doc/change-file/{id}(id=${docDetail.id})}"
+                              enctype="multipart/form-data" method="post">
+                            <div class="modal-header">
+                                <strong class="modal-title">Thay file đính kèm</strong>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group w-100">
+                                        <label>Chọn file mới</label>
+                                        <input class="form-control" type="file" name="file" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-end">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--END CHANGE FILE-->
+
         </div>
 
         <aside class="control-sidebar control-sidebar-dark"></aside>

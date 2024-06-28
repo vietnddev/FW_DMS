@@ -58,7 +58,7 @@ public class DocFieldServiceImpl extends BaseService implements DocFieldService 
     public DocField update(DocField pDocField, Integer docFieldId) {
         Optional<DocField> docFieldOpt = this.findById(docFieldId);
         if (docFieldOpt.isEmpty()) {
-            throw new ResourceNotFoundException("DocField not found!");
+            throw new ResourceNotFoundException("DocField not found!", true);
         }
         DocField docFieldBefore = ObjectUtils.clone(docFieldOpt.get());
 
@@ -76,7 +76,7 @@ public class DocFieldServiceImpl extends BaseService implements DocFieldService 
     public String delete(Integer id) {
         Optional<DocField> docField = this.findById(id);
         if (docField.isEmpty()) {
-            throw new ResourceNotFoundException("DocField not found!");
+            throw new ResourceNotFoundException("DocField not found!", true);
         }
         if (!docDataService.findByDocField(id).isEmpty()) {
             throw new DataInUseException(ErrorCode.DATA_LOCKED_ERROR.getDescription());

@@ -101,4 +101,9 @@ public class CommonUtils {
         }
         throw new AuthenticationException();
     }
+
+    public static String generateUniqueString() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
+    }
 }

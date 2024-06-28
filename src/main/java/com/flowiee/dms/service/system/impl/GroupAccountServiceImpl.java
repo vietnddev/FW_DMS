@@ -61,7 +61,7 @@ public class GroupAccountServiceImpl extends BaseService implements GroupAccount
     public GroupAccount update(GroupAccount groupAccount, Integer groupId) {
         Optional<GroupAccount> groupAccountOpt = this.findById(groupId);
         if (groupAccountOpt.isEmpty()) {
-            throw new ResourceNotFoundException("Group account not found");
+            throw new ResourceNotFoundException("Group account not found", false);
         }
         GroupAccount groupAccountBefore = ObjectUtils.clone(groupAccountOpt.get());
 

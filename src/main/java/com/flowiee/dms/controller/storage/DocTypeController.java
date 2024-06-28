@@ -31,7 +31,7 @@ public class DocTypeController extends BaseController {
     public ModelAndView viewDocTypeDetail(@PathVariable("id") Integer docTypeId) {
         Optional<Category> docType = categoryService.findById(docTypeId);
         if (docType.isEmpty()) {
-            throw new ResourceNotFoundException("Document type not found!");
+            throw new ResourceNotFoundException("Document type not found!", false);
         }
         ModelAndView modelAndView = new ModelAndView(PagesUtils.STG_DOCTYPE_DETAIL);
         modelAndView.addObject("docTypeId", docTypeId);

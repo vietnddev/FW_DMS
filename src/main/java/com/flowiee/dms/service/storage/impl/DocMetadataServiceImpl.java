@@ -59,7 +59,7 @@ public class DocMetadataServiceImpl extends BaseService implements DocMetadataSe
     public String updateMetadata(List<DocMetaModel> metaDTOs, Integer documentId) {
         Optional<Document> document = documentRepository.findById(documentId);
         if (document.isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
 
         for (DocMetaModel metaDTO : metaDTOs) {

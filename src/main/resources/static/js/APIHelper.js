@@ -54,7 +54,7 @@ function callApiExportData(apiURL) {
             }, 0);
         },
         error: function(xhr, status, error) {
-            console.error("An error occurred while exporting data: " + error);
+            alert("Error: " + $.parseJSON(xhr.responseText).message);
         }
     });
 }

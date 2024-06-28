@@ -2,6 +2,7 @@ package com.flowiee.dms.controller.storage;
 
 import com.flowiee.dms.base.BaseController;
 import com.flowiee.dms.entity.category.Category;
+import com.flowiee.dms.entity.storage.FileStorage;
 import com.flowiee.dms.exception.AppException;
 import com.flowiee.dms.exception.ForbiddenException;
 import com.flowiee.dms.exception.ResourceNotFoundException;
@@ -72,7 +73,7 @@ public class DocumentControllerView extends BaseController {
         int documentId = Integer.parseInt(aliasPath.substring(aliasPath.lastIndexOf("-") + 1));
         Optional<DocumentDTO> documentOptional = documentInfoService.findById(documentId);
         if (documentOptional.isEmpty() || !(aliasName + "-" + documentId).equals(documentOptional.get().getAsName() + "-" + documentOptional.get().getId())) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
         if (!docShareService.isShared(documentId, null)) {
             throw new ForbiddenException(ErrorCode.FORBIDDEN_ERROR.getDescription());
@@ -89,7 +90,14 @@ public class DocumentControllerView extends BaseController {
             }
             if (document.getIsFolder().equals("N")) {
                 DocumentDTO docDTO = DocumentDTO.fromDocument(document);
-                docDTO.setFile(FileDTO.fromFileStorage(fileStorageService.findFileIsActiveOfDocument(document.getId())));
+
+                Optional<FileStorage> fileStorage = fileStorageService.findFileIsActiveOfDocument(document.getId());
+                if (fileStorage.isPresent()) {
+                    docDTO.setFile(FileDTO.fromFileStorage(fileStorage.get()));
+                } else {
+                    docDTO.setFile(new FileDTO());
+                }
+
                 modelAndView.setViewName(PagesUtils.STG_DOCUMENT_DETAIL);
                 modelAndView.addObject("docDetail", docDTO);
                 modelAndView.addObject("docMeta", docMetadataService.findMetadata(document.getId()));
@@ -108,7 +116,7 @@ public class DocumentControllerView extends BaseController {
                                    @PathVariable("id") Integer documentId,
                                    HttpServletRequest request) throws IOException {
         if (documentId <= 0 || documentInfoService.findById(documentId).isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
         fileStorageService.changFileOfDocument(file, documentId);
         return new ModelAndView("redirect:" + request.getHeader("referer"));
@@ -118,7 +126,7 @@ public class DocumentControllerView extends BaseController {
     @PreAuthorize("@vldModuleStorage.updateDoc(true)")
     public ModelAndView update(@ModelAttribute("document") DocumentDTO document, @PathVariable("id") Integer documentId, HttpServletRequest request) {
         if (document == null || documentId <= 0 || documentInfoService.findById(documentId).isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
         documentInfoService.update(document, documentId);
         return new ModelAndView("redirect:" + request.getHeader("referer"));
@@ -132,7 +140,7 @@ public class DocumentControllerView extends BaseController {
                                        @RequestParam(value = "dataId", required = false) Integer[] dataIds,
                                        @RequestParam(value = "dataValue", required = false) String[] dataValues) {
         if (documentId <= 0 || documentInfoService.findById(documentId).isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
         if (ObjectUtils.isNotEmpty(fieldIds) && ObjectUtils.isNotEmpty(dataIds) && ObjectUtils.isNotEmpty(dataValues)) {
             List<DocMetaModel> metaDTOs = new ArrayList<>();
@@ -151,7 +159,7 @@ public class DocumentControllerView extends BaseController {
     @PreAuthorize("@vldModuleStorage.deleteDoc(true)")
     public ModelAndView deleteDocument(@PathVariable("id") Integer documentId, HttpServletRequest request) {
         if (documentId <= 0 || documentInfoService.findById(documentId).isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
         documentInfoService.delete(documentId);
         return new ModelAndView("redirect:" + request.getHeader("referer"));
@@ -161,7 +169,7 @@ public class DocumentControllerView extends BaseController {
     @PreAuthorize("@vldModuleStorage.moveDoc(true)")
     public ModelAndView moveDocument(@PathVariable("id") Integer documentId, HttpServletRequest request) {
         if (documentId <= 0 || documentInfoService.findById(documentId).isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
         return new ModelAndView("redirect:" + request.getHeader("referer"));
     }
@@ -170,7 +178,7 @@ public class DocumentControllerView extends BaseController {
     @PreAuthorize("@vldModuleStorage.shareDoc(true)")
     public ModelAndView share(@PathVariable("id") Integer documentId, HttpServletRequest request) {
         if (documentId <= 0 || documentInfoService.findById(documentId).isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", true);
         }
         return new ModelAndView("redirect:" + request.getHeader("referer"));
     }

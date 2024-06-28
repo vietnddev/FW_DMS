@@ -81,10 +81,10 @@ public class FileStorage extends BaseEntity implements Serializable {
 
     public FileStorage(MultipartFile file, String pModule) {
         this.module = pModule;
-        this.originalName = file.getOriginalFilename();
-        this.storageName = Instant.now(Clock.systemUTC()).toEpochMilli() + "_" + file.getOriginalFilename();
-        this.fileSize = file.getSize();
         this.extension = CommonUtils.getFileExtension(file.getOriginalFilename());
+        this.originalName = file.getOriginalFilename();
+        this.storageName = CommonUtils.generateUniqueString() + "." + this.extension;
+        this.fileSize = file.getSize();
         this.contentType = file.getContentType();
         this.directoryPath = CommonUtils.getPathDirectory(pModule).substring(CommonUtils.getPathDirectory(pModule).indexOf("uploads"));
         this.account = CommonUtils.getUserPrincipal().toAccountEntity();

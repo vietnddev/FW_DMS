@@ -35,7 +35,7 @@ public class CategoryControllerView extends BaseController {
     @PreAuthorize("@vldModuleCategory.readCategory(true)")
     public ModelAndView viewSubCategory(@PathVariable("type") String categoryType) {
         if (!CommonUtils.isValidCategory(categoryType)) {
-            throw new ResourceNotFoundException("Category not found!");
+            throw new ResourceNotFoundException("Category not found!", true);
         }
         ModelAndView modelAndView = new ModelAndView(PagesUtils.CTG_CATEGORY_DETAIL);
         modelAndView.addObject("categoryType", categoryType);

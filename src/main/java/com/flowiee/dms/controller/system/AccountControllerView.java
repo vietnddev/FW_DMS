@@ -46,7 +46,7 @@ public class AccountControllerView extends BaseController {
     @PreAuthorize("@vldModuleSystem.readAccount(true)")
     public ModelAndView findDetailAccountById(@PathVariable("id") Integer accountId) {
         if (accountId <= 0 || accountService.findById(accountId).isEmpty()) {
-            throw new ResourceNotFoundException("Account not found!");
+            throw new ResourceNotFoundException("Account not found!", true);
         }
         ModelAndView modelAndView = new ModelAndView(PagesUtils.SYS_ACCOUNT_DETAIL);
         List<RoleModel> roleOfAccount = roleService.findAllRoleByAccountId(accountId);
@@ -76,7 +76,7 @@ public class AccountControllerView extends BaseController {
                                HttpServletRequest request) {
         Optional<Account> accOptional = accountService.findById(accountId);
         if (accOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Account not found!");
+            throw new ResourceNotFoundException("Account not found!", true);
         }
         Account account = accOptional.get();
         accountEntity.setId(accountId);
@@ -92,7 +92,7 @@ public class AccountControllerView extends BaseController {
     public ModelAndView deleteAccount(@PathVariable("id") Integer accountId) {
         Optional<Account> accountOptional = accountService.findById(accountId);
         if (accountId <= 0 || accountOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Account not found!");
+            throw new ResourceNotFoundException("Account not found!", true);
         }
         Account account = accountOptional.get();
         account.setStatus(false);
@@ -104,7 +104,7 @@ public class AccountControllerView extends BaseController {
     @PreAuthorize("@vldModuleSystem.updateAccount(true)")
     public ModelAndView updatePermission(@PathVariable("id") Integer accountId, HttpServletRequest request) {
         if (accountId <= 0 || accountService.findById(accountId).isEmpty()) {
-            throw new ResourceNotFoundException("Account not found!");
+            throw new ResourceNotFoundException("Account not found!", true);
         }
         roleService.deleteAllRole(null, accountId);
         List<ActionModel> listAction = roleService.findAllAction();

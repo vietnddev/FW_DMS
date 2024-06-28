@@ -34,7 +34,7 @@ public class DocFieldController {
     @PreAuthorize("@vldModuleStorage.updateDoc(true)")
     public ModelAndView updateDocField(HttpServletRequest request, @ModelAttribute("docField") DocField docField, @PathVariable("id") Integer docFieldId) {
         if (docFieldId <= 0 || docFieldService.findById(docFieldId).isEmpty()) {
-            throw new ResourceNotFoundException("DocField not found!");
+            throw new ResourceNotFoundException("DocField not found!", false);
         }
         docField.setRequired(docField.getRequired() != null ? docField.getRequired() : false);
         docFieldService.update(docField, docFieldId);
@@ -46,7 +46,7 @@ public class DocFieldController {
     @PreAuthorize("@vldModuleStorage.deleteDoc(true)")
     public ApiResponse<String> deleteDocField(@PathVariable("id") Integer docFiledId) {
         if (docFieldService.findById(docFiledId).isEmpty()) {
-            throw new ResourceNotFoundException("DocField not found!");
+            throw new ResourceNotFoundException("DocField not found!", false);
         }
         return ApiResponse.ok(docFieldService.delete(docFiledId));
     }

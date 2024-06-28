@@ -183,6 +183,7 @@
             //updateTableContentWhenOnClickPagination(loadDocuments, mvPageSize, mvPageNum, mvTotalPage, mvTotalElements);
             updateTableContentWhenOnClickPagination();
             exportData();
+            downloadDocument();
         });
 
         function updateTableContentWhenOnClickPagination() {
@@ -259,6 +260,13 @@
                 let apiURL = mvHostURLCallApi + "/stg/doc/export/excel";
                 callApiExportData(apiURL);
                 $("#modalExportData").modal('hide');
+            })
+        }
+
+        function downloadDocument() {
+            $(document).on("click", ".btn-download", function () {
+                let apiURL = mvHostURLCallApi + "/stg/doc/download/" + $(this).attr("docId");
+                callApiExportData(apiURL);
             })
         }
     </script>

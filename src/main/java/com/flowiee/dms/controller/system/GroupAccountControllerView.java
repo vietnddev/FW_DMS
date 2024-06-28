@@ -35,7 +35,7 @@ public class GroupAccountControllerView extends BaseController {
     public ModelAndView findDetailGroup(@PathVariable("id") Integer groupId) {
         Optional<GroupAccount> groupAcc = groupAccountService.findById(groupId);
         if (groupAcc.isEmpty()) {
-            throw new ResourceNotFoundException("Group account not found!");
+            throw new ResourceNotFoundException("Group account not found!", true);
         }
         ModelAndView modelAndView = new ModelAndView(PagesUtils.SYS_GR_ACC_DETAIL);
         modelAndView.addObject("groupAccount", groupAcc.get());

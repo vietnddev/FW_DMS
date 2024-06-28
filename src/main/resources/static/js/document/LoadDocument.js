@@ -23,6 +23,7 @@ function loadDocuments(pageSize, pageNum) {
                 mvDocuments[d.id] = d;
                 let iconDoc = d.isFolder === "Y" ? "/dist/icon/folder.png" : "/dist/icon/pdf.png";
                 let btnMove = d.thisAccCanMove ? `<button class="btn btn-success btn-sm btn-move" docId="${d.id}" title="Di chuyển"> <i class="fa-solid fa-up-down-left-right"></i> </button>` : ``;
+                let btnDownload = d.isFolder === "N" ? `<button class="btn btn-primary btn-sm btn-download" docId="${d.id}" title="Tải về"> <i class="fa-solid fa-download"></i> </button>` : ``;
                 let btnUpdate = d.thisAccCanUpdate ? `<button class="btn btn-warning btn-sm btn-update" docId="${d.id}" title="Cập nhật"> <i class="fa-solid fa-pencil"></i> </button>` : ``;
                 let btnShare = d.thisAccCanShare ? `<button class="btn btn-info btn-sm btn-share" docId="${d.id}" title="Chia sẽ"> <i class="fa-solid fa-share"></i> </button>` : ``;
                 let btnDelete = d.thisAccCanDelete ? `<button class="btn btn-danger btn-sm btn-delete" docId="${d.id}" title="Xóa"> <i class="fa-solid fa-trash"></i> </button>` : ``;
@@ -36,6 +37,7 @@ function loadDocuments(pageSize, pageNum) {
                         <td>${d.description}</td>
                         <td>
                             <button class="btn btn-secondary btn-sm btn-copy" docId="${d.id}" title="Sao chép"> <i class="fa-solid fa-copy"></i> </button>
+                            ${btnDownload}                    
                             ${btnMove}
                             ${btnUpdate}
                             ${btnShare}

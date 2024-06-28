@@ -96,7 +96,7 @@ public class DocumentInfoServiceImpl extends BaseService implements DocumentInfo
     public DocumentDTO update(DocumentDTO data, Integer documentId) {
         Optional<Document> document = documentRepository.findById(documentId);
         if (document.isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", false);
         }
         if (!docShareService.isShared(documentId, DocRight.UPDATE.getValue())) {
             throw new BadRequestException(ErrorCode.FORBIDDEN_ERROR.getDescription());
@@ -119,7 +119,7 @@ public class DocumentInfoServiceImpl extends BaseService implements DocumentInfo
     public String delete(Integer documentId) {
         Optional<DocumentDTO> document = this.findById(documentId);
         if (document.isEmpty()) {
-            throw new ResourceNotFoundException("Document not found!");
+            throw new ResourceNotFoundException("Document not found!", false);
         }
         if (!docShareService.isShared(documentId, DocRight.DELETE.getValue())) {
             throw new BadRequestException(ErrorCode.FORBIDDEN_ERROR.getDescription());

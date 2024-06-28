@@ -43,7 +43,7 @@ public class SystemControllerView extends BaseController {
     @PreAuthorize("@vldModuleSystem.setupConfig(true)")
     public ModelAndView update(@ModelAttribute("config") SystemConfig config, @PathVariable("id") Integer configId) {
         if (configId <= 0 || configService.findById(configId).isEmpty()) {
-            throw new ResourceNotFoundException("Config not found!");
+            throw new ResourceNotFoundException("Config not found!", true);
         }
         configService.update(config, configId);
         return new ModelAndView("redirect:/he-thong/config");

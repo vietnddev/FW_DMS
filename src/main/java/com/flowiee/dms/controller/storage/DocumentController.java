@@ -11,11 +11,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -101,5 +106,12 @@ public class DocumentController extends BaseController {
     @PreAuthorize("@vldModuleStorage.moveDoc(true)")
     public ApiResponse<String> moveDoc(@PathVariable("id") Integer docId, @RequestParam("destinationId") Integer destinationId) {
         return ApiResponse.ok(docActionService.moveDoc(docId, destinationId));
+    }
+
+    @Operation(summary = "Download document")
+    @GetMapping("/doc/download/{id}")
+    @PreAuthorize("@vldModuleStorage.readDoc(true)")
+    public ResponseEntity<InputStreamResource> downloadDoc(@PathVariable("id") Integer documentId) throws FileNotFoundException {
+        return docActionService.downloadDoc(documentId);
     }
 }

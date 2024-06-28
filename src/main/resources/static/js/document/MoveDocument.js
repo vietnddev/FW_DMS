@@ -18,6 +18,10 @@ function moveDocument() {
     })
 
     $("#btnConfirmMoveDoc").on("click", function () {
+        if (currentFolderSelected == null) {
+            alert("Vui lòng chọn thư mục cần di chuyến đến!");
+            return;
+        }
         let docSelectedId = currentFolderSelected.attr("docId");
         let apiURL = mvHostURLCallApi + "/stg/doc/move/" + documentToMoveId;
         let body = {destinationId : docSelectedId};

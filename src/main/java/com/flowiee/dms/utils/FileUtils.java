@@ -1,5 +1,6 @@
 package com.flowiee.dms.utils;
 
+import com.flowiee.dms.entity.storage.FileStorage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.poi.ss.usermodel.DataValidation;
 import org.apache.poi.ss.usermodel.DataValidationConstraint;
@@ -71,5 +72,10 @@ public class FileUtils {
             }
         }
         return extension;
+    }
+
+    public static File getFileUploaded(FileStorage fileModel) {
+        Path path = Paths.get(rootPath + "/" + fileModel.getDirectoryPath() + "/" + fileModel.getStorageName());
+        return new File(path.toUri());
     }
 }

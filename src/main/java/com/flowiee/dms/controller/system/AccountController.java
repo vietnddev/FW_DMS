@@ -48,7 +48,7 @@ public class AccountController extends BaseController {
     public ApiResponse<Account> findDetailAccount(@PathVariable("accountId") Integer accountId) {
         Optional<Account> account = accountService.findById(accountId);
         if (account.isEmpty()) {
-            throw new ResourceNotFoundException("Account not found!");
+            throw new ResourceNotFoundException("Account not found!", false);
         }
         return ApiResponse.ok(account.get());
     }
@@ -114,7 +114,7 @@ public class AccountController extends BaseController {
     public ApiResponse<String> deleteAccount(@PathVariable("accountId") Integer accountId) {
         try {
             if (accountId <= 0 ||accountService.findById(accountId).isEmpty()) {
-                throw new ResourceNotFoundException("Account not found!");
+                throw new ResourceNotFoundException("Account not found!", false);
             }
             return ApiResponse.ok(accountService.delete(accountId));
         } catch (RuntimeException ex) {

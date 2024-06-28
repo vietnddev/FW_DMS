@@ -9,7 +9,11 @@ function cloneDocument() {
 
     $("#btnConfirmCloneDoc").on("click", function () {
         let docId = $(this).attr("docId");
-        let newName =$("#docCloneNameField").val();
+        let newName = $("#docCloneNameField").val();
+        if (newName === "") {
+            alert("Vui lòng nhập tên tài liệu!")
+            return;
+        }
         let apiURL = mvHostURLCallApi + "/stg/doc/copy/" + docId;
         $.post(apiURL, {nameCopy : newName}, function (response) {
             if (response.status === "OK") {

@@ -41,7 +41,7 @@ public class ConfigController {
     public ApiResponse<SystemConfig> updateConfig(@RequestBody SystemConfig config, @PathVariable("id") Integer configId) {
         try {
             if (configId <= 0 || configService.findById(configId).isEmpty()) {
-                throw new ResourceNotFoundException("Config not found!");
+                throw new ResourceNotFoundException("Config not found!", false);
             }
             return ApiResponse.ok(configService.update(config, configId));
         } catch (RuntimeException ex) {
